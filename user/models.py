@@ -2,7 +2,7 @@ from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from store.settings import DONAIN_NAME
+from store.settings import DONAIN_NAME,EMAIL_HOST_USER
 from django.urls import reverse
 from django.utils.timezone import now
 
@@ -30,7 +30,7 @@ class EmailVerification(models.Model):
         send_mail(
             subject=subject,
             message=message,
-            from_email='from@example.com',
+            from_email=EMAIL_HOST_USER,
             recipient_list=[self.user.email],
             fail_silently=False,
         )
