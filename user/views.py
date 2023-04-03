@@ -34,11 +34,6 @@ class UserProfileView(TitleMixin,UpdateView):
     form_class = UserProfileForm
     title = 'Store - Личный кабинет'
 
-    def get_context_data(self):
-        context = super(UserProfileView, self).get_context_data()
-        context['baskets'] = Basket.objects.filter(user=self.object)
-        return context
-
     def get_success_url(self):
         return reverse_lazy('user:profile',args=(self.object.id,))
 
