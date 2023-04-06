@@ -4,7 +4,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
 
-from store.settings import DOMAIN_NAME, EMAIL_HOST_USER
+from store import settings
 
 
 class User(AbstractUser):
@@ -23,13 +23,13 @@ class EmailVerification(models.Model):
 
     def send_email_verification(self):
         link = reverse('user:email_verify', kwargs={'email': self.user.email, 'uniq_code': self.uniq_code})
-        verification_link = f'{DOMAIN_NAME}{link}'
+        verification_link = f'{settings.DOMAIN_NAME}{link}'
         subject = f'Подтверждение учётной записи для пользователя {self.user.username} '
         message = f'Для подтверждения учётной записи {self.user.email} перейдите по ссылке {verification_link}'
         send_mail(
             subject=subject,
             message=message,
-            from_email=EMAIL_HOST_USER,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[self.user.email],
             fail_silently=False,
         )
