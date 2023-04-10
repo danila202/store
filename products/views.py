@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-
+from django.core.paginator import Paginator
 from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
 
@@ -21,6 +21,10 @@ class ProductsListView(TitleMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         category_id = self.kwargs.get('category_id')
+        if category_id:
+            self.paginate_by = queryset.filter(category_id=category_id).count()
+        else:
+            self.paginate_by = 3
         return queryset.filter(category_id=category_id) if category_id else queryset
 
     def get_context_data(self):
