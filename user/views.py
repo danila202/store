@@ -28,7 +28,6 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
 
 
 class UserProfileView(TitleMixin, UpdateView):
-
     model = User
     template_name = 'user/profile.html'
     form_class = UserProfileForm

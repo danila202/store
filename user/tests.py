@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 from datetime import timedelta
 
+from store.settings import LOGIN_REDIRECT_URL
 from .models import User, EmailVerification
 
 
@@ -47,6 +48,38 @@ class UserRegistrationTest(TestCase):
 
         self.assertEqual(response.status_code,HTTPStatus.OK)
         self.assertContains(response,'Пользователь с таким именем уже существует.',html=True)
+
+
+class UserLoginTest(TestCase):
+    fixtures = ('users.json',)
+
+    def setUp(self):
+        self.path = reverse('user:login')
+        self.data = {
+            'username': 'mocrop13',
+            'password': 'Imkd3512#'
+        }
+
+    def test_success_login_get(self):
+        response = self.client.get(self.path)
+
+        self.assertEqual(response.status_code,HTTPStatus.OK)
+        self.assertTemplateUsed(response,'user/login.html')
+        self.assertEqual(response.context_data['title'],'Store - Авторизация')
+
+    def test_success_login_post(self):
+        user = User.objects.get(username=self.data.get('username'))
+        assert user.is_authenticated
+
+        response = self.client.post(self.path,self.data)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        self.assertRedirects(response,reverse('index'))
+
+
+
+
+
 
 
 
