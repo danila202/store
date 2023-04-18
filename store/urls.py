@@ -26,8 +26,10 @@ urlpatterns = [
     path('product/', include('products.urls', namespace='products')),
     path('user/', include('user.urls', namespace='user')),
     path('accounts/', include('allauth.urls')),
+    path('order/', include('orders.urls', namespace='orders')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
+
