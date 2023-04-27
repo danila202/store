@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
                                        UserCreationForm)
 
-from .models import EmailVerification, User
+from .models import User
 from .tasks import send_email_verification
 
 

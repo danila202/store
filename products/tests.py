@@ -1,4 +1,4 @@
-from .models import Product,ProductCategory
+from .models import Product, ProductCategory
 from http import HTTPStatus
 from django.test import TestCase
 from django.urls import reverse
@@ -36,12 +36,10 @@ class ProductsListTestCase(TestCase):
 
     def test_list_with_categories(self):
         category = ProductCategory.objects.first()
-        path = reverse('products:category',kwargs={'category_id': category.id})
+        path = reverse('products:category', kwargs={'category_id': category.id})
         response = self.client.get(path)
         self._common_test(response)
         self.assertEqual(
             list(response.context_data['object_list']),
             list(self.products.filter(category_id=category.id)))
-
-
 
